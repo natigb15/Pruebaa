@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta chaset="UTF-8">
+    <!DOCTYPE html>
+    <html lang="es">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Skoupz - Retro Cartoon Tees</title>
+        <link rel="stylesheet" href="styles.css">
+<!--Fuente para el boton-->
+       <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+
+<!--Fuente de cambio de toda la pagina-->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Questrial&display=swap" rel="stylesheet">
+
+
+
+      
+
+<body>
+    <script>
+// Verificar sesión al cargar la página
+document.addEventListener('DOMContentLoaded', function() {
+    checkUserSession();
+});
+
+async function checkUserSession() {
+    try {
+        const response = await fetch('check_session.php');
+        const data = await response.json();
+        
+        if (data.logged_in) {
+            updateUIForLoggedInUser(data);
+        }
+    } catch (error) {
+        console.error('Error checking session:', error);
+    }
+}
+
+function updateUIForLoggedInUser(userData) {
+    // Actualizar ícono de usuario
+    const userIcon = document.querySelector('.icon-btn .material-symbols-outlined');
+    if (userIcon && userData.user_name) {
+        userIcon.textContent = 'account_circle';
+        userIcon.title = `Hola, ${userData.user_name}`;
+        
+        // Cambiar evento a logout
+        const userBtn = userIcon.closest('.icon-btn');
+        if (userBtn) {
+            userBtn.onclick = function() {
+                window.location.href = 'logout.php';
+            };
+        }
+    }
+}
+</script>
+   <nav class="navbar">
+    <a href="#" class="logo" style="text-decoration: none;">Skoupz</a>
+
+    <div class="search-bar">
+        <input type="text" placeholder="Search Here">
+        <button><span class="material-symbols-outlined">search</span></button>
+    </div>
+
+    <div class="nav-icons">
+
+        <!-- Special Offers -->
+        <div class="special-offer" style="cursor: pointer;">
+            <span class="material-symbols-outlined fire-icon">local_fire_department</span>
+            <span>Special Offers</span>
+        </div>
+
+        <!-- Currency Dropdown -->
+        <div class="nav-dropdown-container">
+            <div class="icon-btn">
+                <span class="material-symbols-outlined">attach_money</span>
+            </div>
+            <div class="nav-dropdown-menu">
+                <div class="dropdown-item">🇺🇸 USD ($)</div>
+                <div class="dropdown-item">🇵🇦 PAB (B/.)</div>
+            </div>
+        </div>
+
+        <!-- Cart -->
+        <div class="icon-btn cart-badge">
+            <span class="material-symbols-outlined">shopping_cart</span>
+        </div>
+
+
+        <!-- User -->
+<div class="icon-btn" onclick="window.location.href='auth.html'">
+    <span class="material-symbols-outlined">person</span>
+</div>
+
+        <!-- Language -->
+        <div class="nav-dropdown-container">
+            <div class="icon-btn">
+                <span class="material-symbols-outlined">language</span>
+            </div>
+            <div class="nav-dropdown-menu">
+                <div class="dropdown-item" onclick="setLanguage('es')">🇪🇸 Español</div>
+                <div class="dropdown-item" onclick="setLanguage('en')">🇺🇸 English</div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">COLLECTIONS</h1>
+            <p class="hero-subtitle">Discover the style that defines you!</p>
+            <button class="cta-button">Shop Now</button>
+        </div>
+        <div class="mascot-hero">
+            <img src="image/Chilling.webp" alt="Mascot">
+        </div>
+        <div class="wave-shape"></div>
+    </section>
+
+    <!-- SE CAMBIAN LOS 3 PRIMEROS PRODUCTOS -->
+    <!-- Products Section -->
+    <section class="products-section">
+        <h2 class="section-title">Featured Products</h2>
+        <div class="products-grid">
+
+
+            <!-- Product 1 -->
+            <div class="product-card">
+                <div class="product-image-wrapper" style="background: #ffedae;">
+                    <img src="image/BREAKFASTBUDS_S.png" alt="Breakfast buddies Tee">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Breakfast buddies Tee</h3>
+                    <div class="product-footer">
+                        <div class="product-price">19.99$</div>
+                        <button class="add-to-cart">🛒 Add</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="product-card">
+                <div class="product-image-wrapper" style="background: #ffedae;" >
+                    <img src="image/OUTOFBOX_S.png" alt="Out Of The Box Tee">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Out Of The Box Tee</h3>
+                    <div class="product-footer">
+                        <div class="product-price">19.99$</div>
+                        <button class="add-to-cart">🛒 Add</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="product-card">
+                <div class="product-image-wrapper">
+                    <img src="image/OUTOFOFFICE_S.png" alt="Outta Office Tee" style="background: #ffedae;">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Outta Office Tee</h3>
+                    <div class="product-footer">
+                        <div class="product-price">19.99$</div>
+                        <button class="add-to-cart">🛒 Add</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- New Product 4 -->
+            <div class="product-card">
+                <div class="product-image-wrapper" style="background: #ffedae;">
+                    <img src="Ropa/Front 2, Gold.png" alt="Golden Vibe Tee">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Golden Vibe Tee</h3>
+                    <div class="product-footer">
+                        <div class="product-price">24.99$</div>
+                        <button class="add-to-cart">🛒 Add</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- New Product 5 -->
+            <div class="product-card">
+                <div class="product-image-wrapper" style="background:  #ffedae">
+                    <img src="Ropa/Front 2, Indigo Blue.png" alt="Indigo Cool Tee">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Indigo Cool Tee</h3>
+                    <div class="product-footer">
+                        <div class="product-price">24.99$</div>
+                        <button class="add-to-cart">🛒 Add</button>
+                    </div>
+                </div>
+            </div>
+
+
+    
+            <!-- New Product 6 -->
+            <div class="product-card">
+                <div class="product-image-wrapper" style="background: #ffedae;">
+                    <img src="Ropa/Front 2, Heather Military Green.png" alt="Military Style Tee">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Military Style Tee</h3>
+                    <div class="product-footer">
+                        <div class="product-price">24.99$</div>
+                        <button class="add-to-cart">🛒 Add</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Special Offers Section -->
+    <section class="special-offers-section" id="offers">
+        <div class="offers-container">
+            <div class="offer-text">
+                <div class="offer-badge">LIMITED TIME! ⚡</div>
+                <h2>MEGA SUMMER<br>SALE 50% OFF</h2>
+                <p style="font-size: 20px; font-weight: 600; margin-bottom: 20px;">Grab your favorite retro styles
+                    before they're gone!</p>
+                <div class="offer-timer">
+                    <div class="timer-box">
+                        <span class="timer-num">02</span>
+                        <span class="timer-label">Days</span>
+                    </div>
+                    <div class="timer-box">
+                        <span class="timer-num">14</span>
+                        <span class="timer-label">Hours</span>
+                    </div>
+                    <div class="timer-box">
+                        <span class="timer-num">45</span>
+                        <span class="timer-label">Mins</span>
+                    </div>
+                </div>
+                <button class="cta-button"
+                    style="margin-top: 40px; background: var(--white); color: var(--charcoal);">Shop Sale</button>
+            </div>
+            <div class="offer-image">
+                <img src="image/Ofertas especiales.png" onerror="this.src='image/DiseñoSueterRojo.webp'"
+                    alt="Special Offer">
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-mascot">
+            <img src="image/mascota.webp" alt="Footer Mascot">
+        </div>
+
+        <div class="footer-content">
+            <!-- Quick Links -->
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#collections">Collections</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#offers">Special Offers</a></li>
+                    <li><a href="#blog">Blog</a></li>
+                </ul>
+            </div>
+
+            <!-- Customer Service -->
+            <div class="footer-column">
+                <h3>Customer Service</h3>
+                <div class="footer-info">
+                    <span class="footer-info-icon">✉</span>
+                    <span>support@skoupz.com</span>
+                </div>
+                <div class="footer-info">
+                    <span class="footer-info-icon">☎︎</span>
+                    <span>+1 (345)6875858</span>
+                </div>
+                <div class="footer-info">
+                    <span class="footer-info-icon">➤</span>
+                    <span>Panama city, Panama</span>
+                </div>
+            </div>
+
+            <!-- Legal -->
+            <div class="footer-column">
+                <h3>Legal</h3>
+                <ul>
+                    <li><a href="#privacy">Privacy Policy</a></li>
+                    <li><a href="#terms">Terms & Conditions</a></li>
+                    <li><a href="#shipping">Shipping & Returns</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+            </div>
+
+            <!-- Newsletter & Social -->
+            <div class="footer-column">
+                <h3>Newsletter</h3>
+                <p style="margin-bottom: 15px; opacity: 0.9; font-size: 14px;">Suscríbete para recibir ofertas
+                    exclusivas</p>
+                <form class="newsletter-form">
+                    <input type="email" class="newsletter-input" placeholder="Tu email">
+                    <button type="submit" class="newsletter-button">Enviar</button>
+                </form>
+                <h3 style="margin-top: 30px;">Síguenos</h3>
+                <div class="social-links">
+                    <div class="social-icon">𝕏</div>
+                    <div class="social-icon">☎︎</div>
+                    <div class="social-icon">📷</div>
+                    <div class="social-icon">▶</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            © 2025 Skoupz. All rights reserved. Made with /ᐠ .ᆺ. ᐟ\ﾉ 𖹭 in Panamá
+        </div>
+    </footer>
+
+    <!-- MODALS -->
+
+  <div class="modal-overlay" id="cart-overlay">
+    <div class="modal cart-modal">
+        <button class="modal-close" onclick="closeModal('cart-overlay')">×</button>
+        <h2 style="font-size: 32px; margin-bottom: 25px; font-style: italic;">Tu Carrito 🛒</h2>
+        
+        <div class="cart-items" style="max-height: 400px; overflow-y: auto; margin-bottom: 20px;">
+            <!-- Los items se generan dinámicamente -->
+        </div>
+        
+        <!-- Resumen de totales -->
+        <div class="cart-summary">
+            <div class="summary-row">
+                <span>Subtotal:</span>
+                <span class="cart-subtotal">$0.00</span>
+            </div>
+            <div class="summary-row">
+                <span>Impuestos (7%):</span>
+                <span class="cart-tax">$0.00</span>
+            </div>
+            <div class="summary-row-total">
+                <span>Total:</span>
+                <span class="cart-total-price">$0.00</span>
+            </div>
+        </div>
+        
+        <!-- En el modal del carrito, modifica el botón: -->
+<button class="checkout-btn" id="checkout-button">
+    Pagar Ahora →
+</button>
+    </div>
+</div>
+
+    <!-- Login/Register Modal -->
+    <div class="modal-overlay" id="auth-overlay">
+        <div class="modal auth-modal">
+            <button class="modal-close" onclick="closeModal('auth-overlay')">×</button>
+
+            <div class="auth-tabs">
+                <div class="auth-tab active" onclick="switchAuth('login')">Login</div>
+                <div class="auth-tab" onclick="switchAuth('register')">Register</div>
+            </div>
+
+            <!-- Login Form -->
+            <div id="login-form" class="auth-form">
+                <h3 style="margin-bottom: 20px; text-align: center;">Welcome Back! 👋</h3>
+                <input type="email" placeholder="Your Email">
+                <input type="password" placeholder="Password">
+                <button class="auth-btn">Log In</button>
+                <p style="text-align: center; margin-top: 15px; font-size: 14px;">Forgot password?</p>
+            </div>
+
+            <!-- Register Form -->
+            <div id="register-form" class="auth-form" style="display: none;">
+                <h3 style="margin-bottom: 20px; text-align: center;" data-translate="join_squad">Join the Squad! 🚀</h3>
+                <input type="text" placeholder="Full Name" data-translate="ph_fullname">
+                <input type="email" placeholder="Your Email" data-translate="ph_email">
+                <input type="tel" placeholder="Phone Number" data-translate="ph_phone">
+
+                <select
+                    style="width: 100%; padding: 12px; margin-bottom: 15px; border: 3px solid var(--charcoal); border-radius: 10px; font-family: 'Comic Sans MS', cursive; font-size: 16px; background: white;">
+                    <option value="" disabled selected data-translate="ph_country">Select Country</option>
+                    <option value="PA">🇵🇦 Panama</option>
+                    <option value="CO">🇨🇴 Colombia</option>
+                    <option value="MX">🇲🇽 Mexico</option>
+                    <option value="SV">🇸🇻 El Salvador</option>
+                    <option value="US">🇺🇸 USA</option>
+                </select>
+                <input type="password" placeholder="Create Password" data-translate="ph_create_pass">
+                <button class="auth-btn" data-translate="btn_create_account">Create Account</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Details Modal -->
+    <div class="modal-overlay" id="product-overlay">
+        <div class="modal product-details-modal">
+            <button class="modal-close" onclick="closeModal('product-overlay')">×</button>
+
+            <div class="pd-image">
+                <img src="image/DiseñoSueterVerde.webp" id="pd-img" alt="Product">
+            </div>
+
+            <div class="pd-info">
+                <h2 class="pd-title" id="pd-title">Mr. Dollar Graphic Tee</h2>
+                <p style="margin-bottom: 20px; line-height: 1.6; font-size: 15px;">
+                    Elevate your street style with this premium cotton tee. Featuring our signature retro-cartoon
+                    artwork, it's perfect for chilling or making a statement.
+                </p>
+                <div class="pd-price" id="pd-price">$19.99</div>
+
+                <div class="pd-main-action">
+                    <div class="pd-options-group">
+                        <span class="pd-option-title">Select Size</span>
+                        <div class="size-selector">
+                            <button class="size-btn">S</button>
+                            <button class="size-btn selected">M</button>
+                            <button class="size-btn">L</button>
+                            <button class="size-btn">XL</button>
+                        </div>
+                    </div>
+
+                    <div class="pd-options-group">
+                        <span class="pd-option-title">Select Color</span>
+                        <div class="color-selector">
+                            <div class="color-btn" style="background: #2d2d2d;"></div>
+                            <div class="color-btn" style="background: #d86375;"></div>
+                            <div class="color-btn" style="background: #5b9cc5;"></div>
+                        </div>
+                    </div>
+
+                    <button class="pd-add-btn">Add to Cart 🛒</button>
+                </div>
+
+                <div class="pd-extra-info">
+                    <div class="info-row">
+                        <span>🚚</span> <span>Free Shipping on orders over $50</span>
+                    </div>
+                    <div class="info-row">
+                        <span>↩️</span> <span>30-Day Free Returns</span>
+                    </div>
+                    <div class="info-row">
+                        <span>👕</span> <span>100% Premium Cotton</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   
+   
+    <script src="script.js"></script>
+    <!-- Reemplazar toda la sección de productos estáticos con esta estructura -->
+<section class="products-section">
+    <h2 class="section-title">Featured Products</h2>
+    <div class="products-grid" id="dynamic-products">
+        <!-- Los productos se cargarán aquí dinámicamente -->
+        <div class="loading-products">
+            <p>Cargando productos...</p>
+        </div>
+    </div>
+</section>
+
+<!-- Agregar este script después de script.js -->
+<script src="update_index_products.js"></script>
+
+</body>
+
+</html>

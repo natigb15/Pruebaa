@@ -1,0 +1,1797 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - Skoupz</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* MANTENGO TODO EL CSS IGUAL */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f8f9fa;
+            color: #1a1a1a;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            width: 260px;
+            background: #1a1a1a;
+            color: white;
+            padding: 30px 0;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .logo-admin {
+            padding: 0 30px 30px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 30px;
+        }
+
+        .logo-admin h1 {
+            font-size: 28px;
+            font-weight: 900;
+            font-style: italic;
+            letter-spacing: -1px;
+        }
+
+        .logo-admin p {
+            font-size: 13px;
+            opacity: 0.6;
+            margin-top: 5px;
+            font-weight: 500;
+        }
+
+        .menu-section {
+            margin-bottom: 30px;
+        }
+
+        .menu-title {
+            padding: 0 30px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.5;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .menu-item {
+            padding: 12px 30px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 15px;
+            font-weight: 500;
+            border-left: 3px solid transparent;
+        }
+
+        .menu-item:hover {
+            background: rgba(255,255,255,0.05);
+            border-left-color: #d86375;
+        }
+
+        .menu-item.active {
+            background: rgba(216, 99, 117, 0.15);
+            border-left-color: #d86375;
+            color: #d86375;
+        }
+
+        .menu-item .material-symbols-outlined {
+            font-size: 22px;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 260px;
+            padding: 30px 40px;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            background: white;
+            padding: 20px 30px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .header-left h2 {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        .breadcrumb {
+            font-size: 14px;
+            color: #6c757d;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-box input {
+            padding: 10px 15px 10px 40px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            width: 280px;
+            font-size: 14px;
+        }
+
+        .search-box .material-symbols-outlined {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0.5;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #d86375, #5b9cc5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #d86375, #5b9cc5);
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+
+        .stat-card:nth-child(1) .stat-icon {
+            background: rgba(216, 99, 117, 0.1);
+            color: #d86375;
+        }
+
+        .stat-card:nth-child(2) .stat-icon {
+            background: rgba(91, 156, 197, 0.1);
+            color: #5b9cc5;
+        }
+
+        .stat-card:nth-child(3) .stat-icon {
+            background: rgba(76, 175, 80, 0.1);
+            color: #4CAF50;
+        }
+
+        .stat-card:nth-child(4) .stat-icon {
+            background: rgba(255, 152, 0, 0.1);
+            color: #FF9800;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #6c757d;
+            font-weight: 500;
+        }
+
+        .stat-change {
+            font-size: 13px;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        .stat-change.positive {
+            color: #4CAF50;
+        }
+
+        .stat-change.negative {
+            color: #f44336;
+        }
+
+        /* Content Section */
+        .content-section {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .section-header h3 {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: #1a1a1a;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2d2d2d;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #1a1a1a;
+            border: 1px solid #e0e0e0;
+        }
+
+        .btn-danger {
+            background: #f44336;
+            color: white;
+        }
+
+        /* Table */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table thead {
+            background: #f8f9fa;
+        }
+
+        .data-table th {
+            padding: 15px;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #6c757d;
+        }
+
+        .data-table td {
+            padding: 18px 15px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+        }
+
+        .data-table tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .employee-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .employee-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #d86375, #5b9cc5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+            font-size: 14px;
+        }
+
+        .employee-details h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .employee-details p {
+            font-size: 13px;
+            color: #6c757d;
+        }
+
+        .badge {
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .badge-active {
+            background: rgba(76, 175, 80, 0.1);
+            color: #4CAF50;
+        }
+
+        .badge-inactive {
+            background: rgba(244, 67, 54, 0.1);
+            color: #f44336;
+        }
+
+        .badge-pending {
+            background: rgba(255, 152, 0, 0.1);
+            color: #FF9800;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .icon-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: #f8f9fa;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .icon-btn:hover {
+            background: #e9ecef;
+        }
+
+        .icon-btn .material-symbols-outlined {
+            font-size: 18px;
+        }
+
+        /* Stock Button */
+        .btn-stock {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            font-size: 14px;
+        }
+
+        .btn-stock:hover {
+            background: #e9ecef;
+            border-color: #1a1a1a;
+        }
+
+        /* Recent Activity Styles */
+        .recent-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .activity-item {
+            display: flex;
+            gap: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #d86375;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #d86375;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .activity-desc {
+            font-size: 13px;
+            color: #6c757d;
+            margin-bottom: 5px;
+        }
+
+        .activity-time {
+            font-size: 12px;
+            color: #999;
+        }
+
+        /* Stock Modal Styles */
+        .stock-grid {
+            display: grid;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .size-group {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .size-header {
+            font-weight: 700;
+            font-size: 15px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .color-stock-row {
+            display: grid;
+            grid-template-columns: 120px 1fr 100px;
+            gap: 12px;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .color-stock-row:last-child {
+            border-bottom: none;
+        }
+
+        .color-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .color-circle {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid #ddd;
+        }
+
+        .stock-input {
+            padding: 8px 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            width: 100%;
+        }
+
+        .stock-status {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .stock-status.low {
+            color: #FF9800;
+        }
+
+        .stock-status.ok {
+            color: #4CAF50;
+        }
+
+        .stock-status.out {
+            color: #f44336;
+        }
+
+        .stock-summary {
+            background: #1a1a1a;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            text-align: center;
+        }
+
+        .summary-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .summary-value {
+            font-size: 28px;
+            font-weight: 800;
+        }
+
+        .summary-label {
+            font-size: 12px;
+            opacity: 0.7;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            padding: 25px 30px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: #f8f9fa;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #1a1a1a;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .modal-footer {
+            padding: 20px 30px;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 25px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            color: #6c757d;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .tab:hover {
+            color: #1a1a1a;
+        }
+
+        .tab.active {
+            color: #1a1a1a;
+            border-bottom-color: #1a1a1a;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Loading Spinner */
+        .loading-spinner {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            gap: 15px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #d86375;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+            }
+
+            .logo-admin p,
+            .menu-title,
+            .menu-item span {
+                display: none;
+            }
+
+            .menu-item {
+                padding: 12px;
+                justify-content: center;
+            }
+
+            .main-content {
+                margin-left: 70px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .search-box input {
+                width: 100%;
+            }
+        }
+    </style>
+    <script src="protect_page.js"></script>
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo-admin">
+            <h1>Skoupz</h1>
+            <p>Panel Administrativo</p>
+        </div>
+
+        <div class="menu-section">
+            <div class="menu-title">Principal</div>
+            <div class="menu-item active" data-section="dashboard">
+                <span class="material-symbols-outlined">dashboard</span>
+                <span>Dashboard</span>
+            </div>
+            <div class="menu-item" data-section="orders">
+                <span class="material-symbols-outlined">shopping_bag</span>
+                <span>Pedidos</span>
+            </div>
+            <div class="menu-item" data-section="products">
+                <span class="material-symbols-outlined">inventory_2</span>
+                <span>Productos</span>
+            </div>
+        </div>
+
+        <div class="menu-section">
+            <div class="menu-title">Gestión</div>
+            <div class="menu-item" data-section="employees">
+                <span class="material-symbols-outlined">group</span>
+                <span>Personal</span>
+            </div>
+            <div class="menu-item" data-section="positions">
+                <span class="material-symbols-outlined">work</span>
+                <span>Cargos</span>
+            </div>
+            <div class="menu-item" data-section="payroll">
+                <span class="material-symbols-outlined">payments</span>
+                <span>Nómina</span>
+            </div>
+        </div>
+
+        <div class="menu-section">
+            <div class="menu-title">Configuración</div>
+            <div class="menu-item" data-section="settings">
+                <span class="material-symbols-outlined">settings</span>
+                <span>Ajustes</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <h2 id="page-title">Dashboard</h2>
+                <div class="breadcrumb">Panel de Control / <span id="breadcrumb-current">Dashboard</span></div>
+            </div>
+            <div class="header-right">
+                <div class="search-box">
+                    <span class="material-symbols-outlined">search</span>
+                    <input type="text" placeholder="Buscar..." id="global-search">
+                </div>
+                <div class="user-profile" id="user-profile">
+                    <div class="user-avatar" id="user-avatar">AD</div>
+                    <div>
+                        <div style="font-weight: 600; font-size: 14px;" id="user-name">Administrador</div>
+                        <div style="font-size: 12px; color: #6c757d;">Administrador</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard View -->
+        <div id="dashboard-view" class="view-content">
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <span class="material-symbols-outlined">group</span>
+                    </div>
+                    <div class="stat-value" id="stat-empleados">--</div>
+                    <div class="stat-label">Empleados Activos</div>
+                    <div class="stat-change positive" id="stat-empleados-change">↑ 0 este mes</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <span class="material-symbols-outlined">shopping_bag</span>
+                    </div>
+                    <div class="stat-value" id="stat-pedidos">--</div>
+                    <div class="stat-label">Pedidos del Mes</div>
+                    <div class="stat-change positive" id="stat-pedidos-change">↑ 0% vs mes anterior</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <span class="material-symbols-outlined">inventory_2</span>
+                    </div>
+                    <div class="stat-value" id="stat-productos">--</div>
+                    <div class="stat-label">Productos en Stock</div>
+                    <div class="stat-change negative" id="stat-productos-change">↓ 0 productos bajos</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <span class="material-symbols-outlined">attach_money</span>
+                    </div>
+                    <div class="stat-value" id="stat-ventas">$--</div>
+                    <div class="stat-label">Ventas del Mes</div>
+                    <div class="stat-change positive" id="stat-ventas-change">↑ 0% vs mes anterior</div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="content-section">
+                <div class="section-header">
+                    <h3>Actividad Reciente</h3>
+                    <button class="btn btn-secondary" onclick="refreshActivity()">
+                        <span class="material-symbols-outlined">refresh</span>
+                        Actualizar
+                    </button>
+                </div>
+                <div id="recent-activity-content">
+                    <div class="loading-spinner">
+                        <div class="spinner"></div>
+                        <p>Cargando actividad reciente...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Employees View -->
+        <div id="employees-view" class="view-content" style="display: none;">
+            <div class="content-section">
+                <div class="section-header">
+                    <h3>Lista de Personal</h3>
+                    <button class="btn btn-primary" onclick="openModal('employee-modal')">
+                        <span class="material-symbols-outlined">add</span>
+                        Nuevo Empleado
+                    </button>
+                </div>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Empleado</th>
+                            <th>Cargo</th>
+                            <th>Departamento</th>
+                            <th>Salario</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="employees-tbody">
+                        <tr>
+                            <td colspan="6">
+                                <div class="loading-spinner">
+                                    <div class="spinner"></div>
+                                    <p>Cargando lista de empleados...</p>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Products View -->
+        <div id="products-view" class="view-content" style="display: none;">
+            <div class="content-section">
+                <div class="section-header">
+                    <h3>Gestión de Productos</h3>
+                    <button class="btn btn-primary" onclick="openModal('product-modal')">
+                        <span class="material-symbols-outlined">add</span>
+                        Nuevo Producto
+                    </button>
+                </div>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>SKU</th>
+                            <th>Categoría</th>
+                            <th>Precio</th>
+                            <th>Stock Total</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="products-tbody">
+                        <tr>
+                            <td colspan="7">
+                                <div class="loading-spinner">
+                                    <div class="spinner"></div>
+                                    <p>Cargando lista de productos...</p>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Orders View -->
+        <div id="orders-view" class="view-content" style="display: none;">
+            <div class="content-section">
+                <div class="section-header">
+                    <h3>Pedidos Recientes</h3>
+                    <button class="btn btn-secondary" onclick="refreshOrders()">
+                        <span class="material-symbols-outlined">refresh</span>
+                        Actualizar
+                    </button>
+                </div>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Orden #</th>
+                            <th>Cliente</th>
+                            <th>Fecha</th>
+                            <th>Total</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="orders-tbody">
+                        <tr>
+                            <td colspan="6">
+                                <div class="loading-spinner">
+                                    <div class="spinner"></div>
+                                    <p>Cargando lista de pedidos...</p>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Positions View -->
+        <div id="positions-view" class="view-content" style="display: none;">
+            <div class="content-section">
+                <div class="section-header">
+                    <h3>Tipos de Cargos</h3>
+                    <button class="btn btn-primary" onclick="openModal('position-modal')">
+                        <span class="material-symbols-outlined">add</span>
+                        Nuevo Cargo
+                    </button>
+                </div>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Cargo</th>
+                            <th>Departamento</th>
+                            <th>Salario Base</th>
+                            <th>Empleados</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Gerente de Ventas</strong></td>
+                            <td>Ventas</td>
+                            <td>$2,500.00</td>
+                            <td>3 empleados</td>
+                            <td><span class="badge badge-active">Activo</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="icon-btn"><span class="material-symbols-outlined">edit</span></button>
+                                    <button class="icon-btn"><span class="material-symbols-outlined">delete</span></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Supervisor de Almacén</strong></td>
+                            <td>Logística</td>
+                            <td>$1,800.00</td>
+                            <td>5 empleados</td>
+                            <td><span class="badge badge-active">Activo</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="icon-btn"><span class="material-symbols-outlined">edit</span></button>
+                                    <button class="icon-btn"><span class="material-symbols-outlined">delete</span></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Payroll View -->
+        <div id="payroll-view" class="view-content" style="display: none;">
+            <div class="content-section">
+                <div class="section-header">
+                    <h3>Gestión de Nómina</h3>
+                    <button class="btn btn-primary">
+                        <span class="material-symbols-outlined">download</span>
+                        Exportar Nómina
+                    </button>
+                </div>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Empleado</th>
+                            <th>Cargo</th>
+                            <th>Salario Base</th>
+                            <th>Bonos</th>
+                            <th>Deducciones</th>
+                            <th>Total</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="employee-info">
+                                    <div class="employee-avatar">MA</div>
+                                    <div class="employee-details">
+                                        <h4>María Aguilar</h4>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>Gerente de Ventas</td>
+                            <td>$2,500.00</td>
+                            <td>$300.00</td>
+                            <td>$175.00</td>
+                            <td><strong>$2,625.00</strong></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="icon-btn" onclick="openModal('salary-modal')"><span class="material-symbols-outlined">edit</span></button>
+                                    <button class="icon-btn"><span class="material-symbols-outlined">receipt</span></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Settings View -->
+        <div id="settings-view" class="view-content" style="display: none;">
+            <div class="content-section">
+                <div class="section-header">
+                    <h3>Configuración General</h3>
+                </div>
+
+                <div class="form-group">
+                    <label>Nombre de la Empresa</label>
+                    <input type="text" value="Skoupz" id="setting-company">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Email de Contacto</label>
+                        <input type="email" value="admin@skoupz.com" id="setting-email">
+                    </div>
+                    <div class="form-group">
+                        <label>Teléfono</label>
+                        <input type="tel" value="+507 6000-0000" id="setting-phone">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Dirección</label>
+                    <textarea rows="3" id="setting-address">Ciudad de Panamá, Panamá</textarea>
+                </div>
+
+                <button class="btn btn-primary" onclick="saveSettings()">
+                    <span class="material-symbols-outlined">save</span>
+                    Guardar Cambios
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Employee Modal -->
+    <div class="modal-overlay" id="employee-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Nuevo Empleado</h3>
+                <button class="modal-close" onclick="closeModal('employee-modal')">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="employee-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Nombre</label>
+                            <input type="text" placeholder="Juan" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Apellido</label>
+                            <input type="text" placeholder="Pérez" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" placeholder="juan.perez@skoupz.com" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Teléfono</label>
+                            <input type="tel" placeholder="+507 6000-0000">
+                        </div>
+                        <div class="form-group">
+                            <label>Fecha de Nacimiento</label>
+                            <input type="date">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Cargo</label>
+                            <select required>
+                                <option value="">Seleccionar cargo</option>
+                                <option>Gerente de Ventas</option>
+                                <option>Supervisor de Almacén</option>
+                                <option>Diseñador Gráfico</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Departamento</label>
+                            <select>
+                                <option value="">Seleccionar departamento</option>
+                                <option>Ventas</option>
+                                <option>Logística</option>
+                                <option>Marketing</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Salario</label>
+                            <input type="number" placeholder="2000.00" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Fecha de Inicio</label>
+                            <input type="date">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('employee-modal')">Cancelar</button>
+                <button class="btn btn-primary" onclick="saveEmployee()">Guardar Empleado</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Modal - FORMULARIO CORREGIDO -->
+<div class="modal-overlay" id="product-modal">
+    <div class="modal">
+        <div class="modal-header">
+            <h3>Nuevo Producto</h3>
+            <button class="modal-close" onclick="closeModal('product-modal')">×</button>
+        </div>
+        <div class="modal-body">
+            <!-- CAMBIA EL ID DEL FORMULARIO A "product-form" -->
+            <form id="product-form" onsubmit="event.preventDefault(); saveProduct();">
+                <div class="form-group">
+                    <label>Nombre del Producto *</label>
+                    <input type="text" name="nombre" placeholder="Ej: Camiseta Basic" required id="product-nombre">
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>SKU *</label>
+                        <input type="text" name="sku" placeholder="SKZ-001" required id="product-sku">
+                    </div>
+                    <div class="form-group">
+                        <label>Proveedor *</label>
+                        <select name="proveedor_id" required id="product-proveedor">
+                            <option value="">Seleccionar proveedor...</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Talla *</label>
+                        <select name="talla_id" required id="product-talla">
+                            <option value="">Seleccionar talla...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Color *</label>
+                        <select name="color_id" required id="product-color">
+                            <option value="">Seleccionar color...</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Categoría *</label>
+                        <select name="categoria" required>
+                            <option value="">Seleccionar categoría</option>
+                            <option value="Camisetas">Camisetas</option>
+                            <option value="Sudaderas">Sudaderas</option>
+                            <option value="Accesorios">Accesorios</option>
+                            <option value="Casual">Casual</option>
+                            <option value="Formal">Formal</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Precio *</label>
+                        <input type="number" name="precio" placeholder="19.99" step="0.01" min="0" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Stock Inicial *</label>
+                        <input type="number" name="stock_inicial" placeholder="50" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Imagen (opcional)</label>
+                        <input type="file" name="imagen" accept="image/*">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Descripción</label>
+                    <textarea name="descripcion" rows="3" placeholder="Descripción del producto..."></textarea>
+                </div>
+                
+                <!-- Botones dentro del formulario -->
+                <div style="display: none;">
+                    <button type="submit" id="hidden-submit">Guardar</button>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="closeModal('product-modal')">Cancelar</button>
+            <!-- Este botón ahora llama directamente a saveProduct() -->
+            <button class="btn btn-primary" onclick="saveProduct()">
+                <span class="material-symbols-outlined">save</span>
+                Guardar Producto
+            </button>
+        </div>
+    </div>
+</div>
+
+    <!-- Position Modal -->
+    <div class="modal-overlay" id="position-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Nuevo Cargo</h3>
+                <button class="modal-close" onclick="closeModal('position-modal')">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="position-form">
+                    <div class="form-group">
+                        <label>Nombre del Cargo</label>
+                        <input type="text" placeholder="Ej: Gerente de Operaciones" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Departamento</label>
+                        <select required>
+                            <option value="">Seleccionar departamento</option>
+                            <option>Ventas</option>
+                            <option>Logística</option>
+                            <option>Marketing</option>
+                            <option>Administración</option>
+                            <option>Recursos Humanos</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Salario Base</label>
+                        <input type="number" placeholder="2000.00" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción del Cargo</label>
+                        <textarea rows="4" placeholder="Responsabilidades y funciones..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('position-modal')">Cancelar</button>
+                <button class="btn btn-primary" onclick="savePosition()">Guardar Cargo</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Salary Modal -->
+    <div class="modal-overlay" id="salary-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Modificar Salario</h3>
+                <button class="modal-close" onclick="closeModal('salary-modal')">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="salary-form">
+                    <div class="form-group">
+                        <label>Salario Base</label>
+                        <input type="number" placeholder="2500.00" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Bonos</label>
+                        <input type="number" placeholder="300.00" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label>Deducciones</label>
+                        <input type="number" placeholder="175.00" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label>Notas</label>
+                        <textarea rows="3" placeholder="Razón del cambio de salario..."></textarea>
+                    </div>
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-top: 20px;">
+                        <strong id="salary-total">Total a Pagar: $0.00</strong>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('salary-modal')">Cancelar</button>
+                <button class="btn btn-primary" onclick="saveSalary()">Guardar Cambios</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stock Modal -->
+    <div class="modal-overlay" id="stock-modal">
+        <div class="modal" style="max-width: 800px;">
+            <div class="modal-header">
+                <div>
+                    <h3 id="stock-modal-title">Gestión de Inventario</h3>
+                    <p style="font-size: 13px; color: #6c757d; margin-top: 5px;" id="stock-modal-subtitle">SKU: --</p>
+                </div>
+                <button class="modal-close" onclick="closeModal('stock-modal')">×</button>
+            </div>
+            <div class="modal-body">
+                
+                <!-- Summary -->
+                <div class="stock-summary">
+                    <div class="summary-item">
+                        <div class="summary-value" id="total-stock">0</div>
+                        <div class="summary-label">Total en Stock</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-value" id="low-stock">0</div>
+                        <div class="summary-label">Stock Bajo</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-value" id="out-stock">0</div>
+                        <div class="summary-label">Agotados</div>
+                    </div>
+                </div>
+
+                <!-- Stock Grid -->
+                <div id="stock-grid-content">
+                    <div class="loading-spinner">
+                        <div class="spinner"></div>
+                        <p>Cargando información de stock...</p>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('stock-modal')">Cancelar</button>
+                <button class="btn btn-primary" onclick="saveStock()">
+                    <span class="material-symbols-outlined">save</span>
+                    Guardar Inventario
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SOLO INCLUYE admin_functions.js, NO script.js -->
+    <script src="admin_functions.js"></script>
+    
+    <script>
+        // ========== FUNCIONES BÁSICAS Y NAVEGACIÓN ==========
+        
+        // Variables globales
+        let currentProductId = null;
+        
+        // Funciones básicas de modal
+       function openModal(modalId) {
+    document.getElementById(modalId).classList.add('active');
+    
+    // Cargar opciones cuando se abre el modal de producto
+    if (modalId === 'product-modal') {
+        // Resetear formulario primero
+        const form = document.getElementById('product-form');
+        if (form) {
+            form.reset();
+        }
+        
+        // Cargar opciones después de un pequeño delay
+        setTimeout(() => {
+            if (typeof loadProductOptions === 'function') {
+                loadProductOptions();
+            }
+        }, 100);
+    }
+}
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+        
+        // Update stock summary (para el modal de stock)
+        function updateStockSummary() {
+            const inputs = document.querySelectorAll('.stock-input');
+            let total = 0;
+            let low = 0;
+            let out = 0;
+
+            inputs.forEach(input => {
+                const value = parseInt(input.value) || 0;
+                total += value;
+                
+                if (value === 0) {
+                    out++;
+                } else if (value < 10) {
+                    low++;
+                }
+            });
+
+            document.getElementById('total-stock').textContent = total;
+            document.getElementById('low-stock').textContent = low;
+            document.getElementById('out-stock').textContent = out;
+        }
+        
+        // Open stock modal
+        async function openStockModal(sku, productName) {
+            currentProductId = sku;
+            document.getElementById('stock-modal-title').textContent = productName;
+            document.getElementById('stock-modal-subtitle').textContent = 'SKU: ' + sku;
+            
+            setTimeout(() => {
+                updateStockSummary();
+            }, 500);
+            
+            openModal('stock-modal');
+        }
+
+        // ========== NAVEGACIÓN DEL PANEL ADMIN ==========
+        function setupAdminNavigation() {
+            // Navigation
+            document.querySelectorAll('.menu-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const section = this.getAttribute('data-section');
+                    
+                    // Update active menu item
+                    document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Hide all views
+                    document.querySelectorAll('.view-content').forEach(view => {
+                        view.style.display = 'none';
+                    });
+                    
+                    // Show selected view
+                    const viewId = section + '-view';
+                    const selectedView = document.getElementById(viewId);
+                    if (selectedView) {
+                        selectedView.style.display = 'block';
+                        
+                        // Cargar datos específicos según la sección
+                        switch(section) {
+                            case 'dashboard':
+                                if (typeof loadDashboardData === 'function') loadDashboardData();
+                                if (typeof loadRecentActivity === 'function') loadRecentActivity();
+                                break;
+                            case 'employees':
+                                if (typeof loadEmployees === 'function') loadEmployees();
+                                break;
+                            case 'orders':
+                                if (typeof loadOrders === 'function') loadOrders();
+                                break;
+                            case 'products':
+                                if (typeof loadProducts === 'function') loadProducts();
+                                break;
+                        }
+                    }
+                    
+                    // Update header title
+                    const titles = {
+                        'dashboard': 'Dashboard',
+                        'orders': 'Gestión de Pedidos',
+                        'products': 'Gestión de Productos',
+                        'employees': 'Gestión de Personal',
+                        'positions': 'Tipos de Cargos',
+                        'payroll': 'Gestión de Nómina',
+                        'settings': 'Configuración'
+                    };
+                    
+                    const pageTitle = document.getElementById('page-title');
+                    const breadcrumb = document.getElementById('breadcrumb-current');
+                    
+                    if (pageTitle) pageTitle.textContent = titles[section] || section;
+                    if (breadcrumb) breadcrumb.textContent = titles[section] || section;
+                });
+            });
+            
+            // Cargar dashboard al inicio
+            if (typeof loadDashboardData === 'function') loadDashboardData();
+            if (typeof loadRecentActivity === 'function') loadRecentActivity();
+        }
+
+        // ========== FUNCIONES DE UTILIDAD ==========
+        function refreshActivity() {
+            if (typeof loadRecentActivity === 'function') loadRecentActivity();
+        }
+
+        function refreshOrders() {
+            if (typeof loadOrders === 'function') loadOrders();
+        }
+        
+        // Funciones placeholder (por implementar)
+        function saveSettings() {
+            alert('Configuración guardada (función por implementar)');
+        }
+
+        function saveEmployee() {
+            alert('Empleado guardado (función por implementar)');
+            closeModal('employee-modal');
+        }
+
+        function savePosition() {
+            alert('Cargo guardado (función por implementar)');
+            closeModal('position-modal');
+        }
+
+        function saveSalary() {
+            alert('Salario actualizado (función por implementar)');
+            closeModal('salary-modal');
+        }
+
+        function saveStock() {
+            alert('Inventario guardado (función por implementar)');
+            closeModal('stock-modal');
+        }
+
+        // Placeholder functions para acciones
+        function editEmployee(id) {
+            alert(`Editar empleado ${id} - Función por implementar`);
+        }
+
+        function viewEmployee(id) {
+            alert(`Ver detalles empleado ${id} - Función por implementar`);
+        }
+
+        function deleteEmployee(id) {
+            if (confirm(`¿Estás seguro de eliminar al empleado ${id}?`)) {
+                alert(`Empleado ${id} eliminado - Función por implementar`);
+                if (typeof loadEmployees === 'function') loadEmployees();
+            }
+        }
+
+        function viewOrder(id) {
+            alert(`Ver detalles pedido ${id} - Función por implementar`);
+        }
+
+        function printOrder(id) {
+            alert(`Imprimir pedido ${id} - Función por implementar`);
+        }
+
+        function updateOrderStatus(id) {
+            alert(`Actualizar estado pedido ${id} - Función por implementar`);
+        }
+
+        function editProduct(id) {
+            alert(`Editar producto ${id} - Función por implementar`);
+        }
+
+        function deleteProduct(id) {
+            if (confirm(`¿Estás seguro de eliminar el producto ${id}?`)) {
+                alert(`Producto ${id} eliminado - Función por implementar`);
+                if (typeof loadProducts === 'function') loadProducts();
+            }
+        }
+
+        // ========== INICIALIZACIÓN ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Admin page loaded');
+            
+            // Configurar navegación
+            setupAdminNavigation();
+            
+            // Configurar eventos de stock inputs
+            document.querySelectorAll('.stock-input').forEach(input => {
+                input.addEventListener('input', function() {
+                    const value = parseInt(this.value) || 0;
+                    const statusElement = this.nextElementSibling;
+                    
+                    if (statusElement) {
+                        if (value === 0) {
+                            statusElement.textContent = 'Agotado';
+                            statusElement.className = 'stock-status out';
+                        } else if (value < 10) {
+                            statusElement.textContent = 'Stock Bajo';
+                            statusElement.className = 'stock-status low';
+                        } else {
+                            statusElement.textContent = 'En Stock';
+                            statusElement.className = 'stock-status ok';
+                        }
+                        
+                        updateStockSummary();
+                    }
+                });
+            });
+            
+            // Close modal when clicking outside
+            document.querySelectorAll('.modal-overlay').forEach(overlay => {
+                overlay.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        this.classList.remove('active');
+                    }
+                });
+            });
+            
+            // Configurar búsqueda global
+            const searchInput = document.getElementById('global-search');
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        alert(`Buscando: ${this.value} - Función por implementar`);
+                    }
+                });
+            }
+        });
+
+
+
+
+
+        
+    </script>
+
+
+
+<!-- Añade esto antes del cierre de </body> en Admin.html -->
+<button onclick="testProductModal()" style="
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+    padding: 10px 15px;
+    background: #d86375;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+">
+    Test Product Modal
+</button>
+
+<script>
+function testProductModal() {
+    console.log('🧪 Probando modal de producto...');
+    
+    // Abrir modal
+    openModal('product-modal');
+    
+    // Forzar carga de opciones después de 1 segundo
+    setTimeout(() => {
+        console.log('🔍 Verificando elementos...');
+        
+        // Verificar que los selects existen
+        const selects = [
+            {id: 'product-proveedor', name: 'Proveedor'},
+            {id: 'product-talla', name: 'Talla'},
+            {id: 'product-color', name: 'Color'}
+        ];
+        
+        selects.forEach(select => {
+            const element = document.getElementById(select.id);
+            if (element) {
+                console.log(`✅ ${select.name}: Existe en DOM`);
+                console.log(`   - ID: ${element.id}`);
+                console.log(`   - Opciones: ${element.options.length}`);
+                console.log(`   - HTML:`, element.outerHTML.substring(0, 200) + '...');
+            } else {
+                console.error(`❌ ${select.name}: NO existe en DOM`);
+            }
+        });
+        
+        // Forzar carga
+        if (typeof loadProductOptions === 'function') {
+            console.log('🔄 Forzando carga de opciones...');
+            loadProductOptions();
+        } else {
+            console.error('❌ loadProductOptions no está definida');
+        }
+        
+    }, 1000);
+}
+</script>  
+</body>
+</html>

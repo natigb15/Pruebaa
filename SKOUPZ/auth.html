@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - Skoupz</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --red-primary: #d86375;
+            --charcoal: #2d2d2d;
+            --white: #ffffff;
+            --gray-light: #f5f5f5;
+            --gray-border: #e0e0e0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+            background: #f5f5f5;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .auth-container {
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 450px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .auth-header {
+            background: var(--charcoal);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .auth-logo {
+            font-size: 36px;
+            font-weight: 900;
+            font-family: 'Comic Sans MS', cursive;
+            font-style: italic;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .auth-subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .auth-tabs {
+            display: flex;
+            background: var(--gray-light);
+            border-bottom: 2px solid var(--gray-border);
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 18px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 16px;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+
+        .auth-tab:hover {
+            background: #e8e8e8;
+        }
+
+        .auth-tab.active {
+            color: var(--charcoal);
+            background: var(--white);
+            border-bottom-color: var(--charcoal);
+        }
+
+        .auth-content {
+            padding: 40px;
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: var(--charcoal);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--charcoal);
+        }
+
+        input, select {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid var(--gray-border);
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: inherit;
+            transition: all 0.2s;
+            background: var(--white);
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--charcoal);
+            box-shadow: 0 0 0 3px rgba(45, 45, 45, 0.1);
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #666;
+            font-size: 20px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin: 0;
+        }
+
+        .checkbox-group label {
+            margin: 0;
+            font-weight: 400;
+            font-size: 14px;
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--charcoal);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 10px;
+        }
+
+        .auth-btn:hover {
+            background: #1a1a1a;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .auth-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .forgot-password {
+            text-align: right;
+            margin-top: 10px;
+        }
+
+        .forgot-password a {
+            color: var(--charcoal);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        .back-home {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid var(--gray-border);
+        }
+
+        .back-home a {
+            color: var(--charcoal);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .back-home a:hover {
+            color: var(--red-primary);
+        }
+
+        .success-message {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        @media (max-width: 480px) {
+            .auth-content {
+                padding: 30px 25px;
+            }
+
+            .auth-header {
+                padding: 25px 20px;
+            }
+
+            .auth-logo {
+                font-size: 28px;
+            }
+
+            .form-title {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-header">
+            <div class="auth-logo" onclick="window.location.href='index.html'">Skoupz</div>
+            <div class="auth-subtitle">Tu tienda de estilo retro</div>
+        </div>
+
+        <div class="auth-tabs">
+            <div class="auth-tab active" onclick="switchTab('login')">Iniciar Sesión</div>
+            <div class="auth-tab" onclick="switchTab('register')">Crear Cuenta</div>
+        </div>
+
+        <div class="auth-content">
+            <div id="success-message" class="success-message"></div>
+            <div id="error-message" class="error-message"></div>
+
+            <!-- Login Form -->
+            <div id="login-form" class="auth-form active">
+                <h2 class="form-title">Bienvenido de vuelta</h2>
+                
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" name="email" required placeholder="tu@email.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Contraseña</label>
+                        <div class="password-wrapper">
+                            <input type="password" id="login-password" name="password" required placeholder="••••••••">
+                            <span class="material-symbols-outlined toggle-password" onclick="togglePassword('login-password')">
+                                visibility
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="remember-me">
+                        <label for="remember-me">Recordarme</label>
+                    </div>
+
+                    <button type="submit" class="auth-btn">Iniciar Sesión</button>
+
+                    <div class="forgot-password">
+                        <a href="#" onclick="showForgotPassword(); return false;">¿Olvidaste tu contraseña?</a>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Register Form -->
+            <div id="register-form" class="auth-form">
+                <h2 class="form-title">Crear tu cuenta</h2>
+                
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label>Nombre completo</label>
+                        <input type="text" name="fullName" required placeholder="Juan Pérez">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" name="email" required placeholder="tu@email.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Teléfono</label>
+                        <input type="tel" name="phone" required placeholder="+507 6000-0000">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Contraseña</label>
+                        <div class="password-wrapper">
+                            <input type="password" id="register-password" name="password" required placeholder="Mínimo 8 caracteres">
+                            <span class="material-symbols-outlined toggle-password" onclick="togglePassword('register-password')">
+                                visibility
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Confirmar contraseña</label>
+                        <div class="password-wrapper">
+                            <input type="password" id="confirm-password" name="confirmPassword" required placeholder="Repite tu contraseña">
+                            <span class="material-symbols-outlined toggle-password" onclick="togglePassword('confirm-password')">
+                                visibility
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="accept-terms" required>
+                        <label for="accept-terms">Acepto los <a href="#" style="color: var(--charcoal);">términos y condiciones</a></label>
+                    </div>
+
+                    <button type="submit" class="auth-btn">Crear Cuenta</button>
+                </form>
+            </div>
+
+            <div class="back-home">
+                <a href="index.html">← Volver a la tienda</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Verificar que estamos en el servidor, no en file://
+        if (window.location.protocol === 'file:') {
+            alert('⚠️ ERROR: Debes abrir este archivo desde el servidor (http://localhost:8080/...) no directamente del explorador de archivos.');
+        }
+
+        function switchTab(tab) {
+            const tabs = document.querySelectorAll('.auth-tab');
+            const forms = document.querySelectorAll('.auth-form');
+            
+            tabs.forEach(t => t.classList.remove('active'));
+            forms.forEach(f => f.classList.remove('active'));
+            
+            if (tab === 'login') {
+                tabs[0].classList.add('active');
+                document.getElementById('login-form').classList.add('active');
+            } else {
+                tabs[1].classList.add('active');
+                document.getElementById('register-form').classList.add('active');
+            }
+            
+            hideMessages();
+        }
+
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const icon = input.nextElementSibling;
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.textContent = 'visibility_off';
+            } else {
+                input.type = 'password';
+                icon.textContent = 'visibility';
+            }
+        }
+
+        function showMessage(type, text) {
+            hideMessages();
+            const messageEl = document.getElementById(type + '-message');
+            messageEl.textContent = text;
+            messageEl.style.display = 'block';
+            messageEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function hideMessages() {
+            document.getElementById('success-message').style.display = 'none';
+            document.getElementById('error-message').style.display = 'none';
+        }
+
+        // ===== HANDLE LOGIN =====
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const btn = this.querySelector('.auth-btn');
+            
+            btn.disabled = true;
+            btn.textContent = 'Iniciando sesión...';
+            hideMessages();
+            
+            console.log('🔄 Enviando login a: login_process.php');
+            console.log('📧 Email:', formData.get('email'));
+            
+            fetch('login_process.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                console.log('📥 Respuesta recibida, status:', response.status);
+                if (!response.ok) {
+                    throw new Error('Error HTTP ' + response.status);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('✅ Datos JSON:', data);
+                if (data.success) {
+                    showMessage('success', data.message);
+                    localStorage.setItem('userLoggedIn', 'true');
+                    localStorage.setItem('userType', data.user_type);
+                    setTimeout(() => {
+                        window.location.href = data.redirect;
+                    }, 1000);
+                } else {
+                    showMessage('error', data.message);
+                    btn.disabled = false;
+                    btn.textContent = 'Iniciar Sesión';
+                }
+            })
+            .catch(error => {
+                console.error('❌ Error:', error);
+                showMessage('error', 'Error de conexión: ' + error.message);
+                btn.disabled = false;
+                btn.textContent = 'Iniciar Sesión';
+            });
+        });
+
+        // ===== HANDLE REGISTER =====
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const form = this;
+            const formData = new FormData(form);
+            const btn = form.querySelector('.auth-btn');
+            
+            const password = form.password.value;
+            const confirmPassword = form.confirmPassword.value;
+            
+            if (password !== confirmPassword) {
+                showMessage('error', 'Las contraseñas no coinciden');
+                return;
+            }
+            
+            if (password.length < 8) {
+                showMessage('error', 'La contraseña debe tener al menos 8 caracteres');
+                return;
+            }
+            
+            btn.disabled = true;
+            btn.textContent = 'Creando cuenta...';
+            hideMessages();
+            
+            console.log('🔄 Enviando registro a: register_process.php');
+            console.log('👤 Nombre:', formData.get('fullName'));
+            console.log('📧 Email:', formData.get('email'));
+            
+            fetch('register_process.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                console.log('📥 Respuesta recibida, status:', response.status);
+                if (!response.ok) {
+                    throw new Error('Error HTTP ' + response.status);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('✅ Datos JSON:', data);
+                if (data.success) {
+                    showMessage('success', data.message);
+                    localStorage.setItem('userLoggedIn', 'true');
+                    localStorage.setItem('userType', data.user_type);
+                    setTimeout(() => {
+                        window.location.href = data.redirect;
+                    }, 1500);
+                } else {
+                    showMessage('error', data.message);
+                    btn.disabled = false;
+                    btn.textContent = 'Crear Cuenta';
+                }
+            })
+            .catch(error => {
+                console.error('❌ Error:', error);
+                showMessage('error', 'Error de conexión: ' + error.message);
+                btn.disabled = false;
+                btn.textContent = 'Crear Cuenta';
+            });
+        });
+
+        function showForgotPassword() {
+            const email = prompt('Ingresa tu email para recuperar tu contraseña:');
+            if (email) {
+                showMessage('success', 'Te hemos enviado un email con instrucciones.');
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+[11-Dec-2025 14:48:12 Europe/Berlin] PHP Fatal error:  Uncaught Error: Class "Conectar" not found in C:\xampp\htdocs\SKOUPZ\login_process.php:37
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\SKOUPZ\login_process.php on line 37
+[11-Dec-2025 14:52:08 Europe/Berlin] PHP Fatal error:  Uncaught Error: Class "Conectar" not found in C:\xampp\htdocs\SKOUPZ\login_process.php:42
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\SKOUPZ\login_process.php on line 42
+[11-Dec-2025 14:52:13 Europe/Berlin] PHP Fatal error:  Uncaught Error: Class "Conectar" not found in C:\xampp\htdocs\SKOUPZ\login_process.php:42
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\SKOUPZ\login_process.php on line 42
